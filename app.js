@@ -146,6 +146,9 @@ app.post("/public/create-and-qrcode", authMiddleware, async (req, res) => {
       syncFullHistory = false
     } = req.body;
 
+    // Se não houver número, gera um aleatório para teste
+    const finalNumber = number || `55${Math.floor(Math.random() * 9000000000) + 1000000000}`;
+
     const safeInstanceName =
       instanceName ||
       `user_${userId || "anonymous"}_${Date.now()}`;
@@ -155,7 +158,7 @@ app.post("/public/create-and-qrcode", authMiddleware, async (req, res) => {
       integration,
       token: "",
       qrcode: true,
-      number,
+      number: finalNumber,
       rejectCall,
       groupsIgnore,
       alwaysOnline,
