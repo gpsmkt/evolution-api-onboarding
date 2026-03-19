@@ -120,7 +120,14 @@ async function buildQrResponse(instanceName, sourcePayload = {}) {
 }
 
 app.get("/public/health", (_req, res) => {
-  res.json({ ok: true, service: "onboarding_api" });
+  res.json({ 
+    ok: true, 
+    service: "onboarding_api",
+    debug: {
+      token_set: !!INTERNAL_AUTH_TOKEN,
+      token_length: INTERNAL_AUTH_TOKEN?.length || 0
+    }
+  });
 });
 
 app.post("/public/create-and-qrcode", authMiddleware, async (req, res) => {
@@ -330,4 +337,6 @@ app.post("/public/webhook/evolution", async (req, res) => {
 
 app.listen(PORT, () => {
   console.log(`onboarding_api running on port ${PORT}`);
+  console.log(`INTERNAL_AUTH_TOKEN set to: ${INTERNAL_AUTH_TOKEN}`);
+  console.log(`EVOLUTION_URL: ${EVOLUTION_URL}`);
 });
